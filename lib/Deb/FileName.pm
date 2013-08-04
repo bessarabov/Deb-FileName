@@ -33,6 +33,9 @@ In case the filaname is incorrect the constractor new() will die.
 Descripton of the Debian package file name:
 L<http://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics#s-pkgname>.
 
+Deb::FileName uses Semantic Versioning standart for version numbers. Please
+visit L<http://semver.org/> to find out all about this great thing.
+
 =cut
 
 use Carp;
