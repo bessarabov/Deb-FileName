@@ -89,7 +89,9 @@ sub new {
 
 Returns deb file name.
 
-    my $deb = Deb::FileName->new('http://mirror.leaseweb.com/ubuntu//pool/main/libw/libwww-perl/libwww-perl_6.04-1_all.deb');
+    my $deb = Deb::FileName->new(
+        string => 'http://mirror.leaseweb.com/ubuntu//pool/main/libw/libwww-perl/libwww-perl_6.04-1_all.deb',
+    );
     $deb->get_name();   # 'libwww-perl_6.04-1_all.deb'
 
 =cut
