@@ -17,7 +17,9 @@ Deb::FileName gives the easy way to parse file name:
 
     use Deb::FileName;
 
-    my $deb = Deb::FileName->new('perl_5.14.2-21_amd64.deb');
+    my $deb = Deb::FileName->new(
+        string => 'perl_5.14.2-21_amd64.deb',
+    );
 
     $deb->get_package_name();       # 'perl'
     $deb->get_version();            # '5.14.2'
@@ -52,27 +54,33 @@ deb file name. It returns the object if the string is correct or dies.
 
 The constractor can recieve file name without path:
 
-    my $deb = Deb::FileName->new('perl_5.14.2-21_amd64.deb');
+    my $deb = Deb::FileName->new(
+        string => 'perl_5.14.2-21_amd64.deb',
+    );
 
 Or it can recieve file name with relative or absolute path:
 
-    my $deb = Deb::FileName->new('cache/apt/archives/libdata-printer-perl_0.35-1_amd64.deb');
+    my $deb = Deb::FileName->new(
+        string => 'cache/apt/archives/libdata-printer-perl_0.35-1_amd64.deb',
+    );
 
 Or it can recieve file name in url:
 
-    my $deb = Deb::FileName->new('http://mirror.leaseweb.com/ubuntu//pool/main/libw/libwww-perl/libwww-perl_6.04-1_all.deb');
+    my $deb = Deb::FileName->new(
+        string => 'http://mirror.leaseweb.com/ubuntu//pool/main/libw/libwww-perl/libwww-perl_6.04-1_all.deb',
+    );
 
 In case deb file name is incorrect the new() dies.
 
 =cut
 
 sub new {
-    my ($class, $string) = @_;
+    my ($class, %params) = @_;
 
     my $self = {};
     bless $self, $class;
 
-    $self->__parse_string($string);
+    $self->__parse_string($params{string});
 
     return $self;
 }

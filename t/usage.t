@@ -49,7 +49,9 @@ my $tests = [
 
 foreach my $test (@{$tests}) {
 
-    my $deb = Deb::FileName->new( $test->{string} );
+    my $deb = Deb::FileName->new(
+        string => $test->{string},
+    );
 
     is( $deb->get_name(), $test->{name}, 'get_name()',);
     is( $deb->get_package_name(), $test->{package_name}, 'get_package_name()',);
