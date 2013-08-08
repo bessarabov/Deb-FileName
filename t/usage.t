@@ -3,6 +3,7 @@ use Deb::FileName;
 use Test::More;
 
 my $tests = [
+
     {
         string => 'perl_5.14.2-21_amd64.deb',
         file_name => 'perl_5.14.2-21_amd64.deb',
@@ -43,7 +44,6 @@ my $tests = [
         revision => '1',
         architecture => 'amd64',
     },
-
 
 ];
 
