@@ -49,8 +49,8 @@ my $false = '';
 
 =head2 new
 
-The constractor. It should recieve one parameter with the string describing
-deb file name. It returns the object if the string is correct or dies.
+The constractor. It should recieve string describing deb file name. It returns
+the object if the string is correct or dies.
 
 The constractor can recieve file name without path:
 
@@ -64,7 +64,7 @@ Or it can recieve file name with relative or absolute path:
         string => 'cache/apt/archives/libdata-printer-perl_0.35-1_amd64.deb',
     );
 
-Or it can recieve file name in url:
+Or it can recieve url:
 
     my $deb = Deb::FileName->new(
         string => 'http://mirror.leaseweb.com/ubuntu//pool/main/libw/libwww-perl/libwww-perl_6.04-1_all.deb',
