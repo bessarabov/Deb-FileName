@@ -26,7 +26,7 @@ Deb::FileName gives the easy way to parse file name:
     $deb->get_revision();           # '21'
     $deb->get_architecture();       # 'amd64'
 
-    $deb->get_name();   # 'perl_5.14.2-21_amd64.deb'
+    $deb->get_file_name();   # 'perl_5.14.2-21_amd64.deb'
 
 In case the filaname is incorrect the constractor new() will die.
 
@@ -85,18 +85,18 @@ sub new {
     return $self;
 }
 
-=head2 get_name
+=head2 get_file_name
 
 Returns deb file name.
 
     my $deb = Deb::FileName->new(
         string => 'http://mirror.leaseweb.com/ubuntu//pool/main/libw/libwww-perl/libwww-perl_6.04-1_all.deb',
     );
-    $deb->get_name();   # 'libwww-perl_6.04-1_all.deb'
+    $deb->get_file_name();   # 'libwww-perl_6.04-1_all.deb'
 
 =cut
 
-sub get_name {
+sub get_file_name {
     my ($self) = @_;
 
     return $self->{__name};

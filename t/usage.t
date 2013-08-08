@@ -5,7 +5,7 @@ use Test::More;
 my $tests = [
     {
         string => 'perl_5.14.2-21_amd64.deb',
-        name => 'perl_5.14.2-21_amd64.deb',
+        file_name => 'perl_5.14.2-21_amd64.deb',
         package_name => 'perl',
         version => '5.14.2',
         revision => '21',
@@ -13,7 +13,7 @@ my $tests = [
     },
     {
         string => 'http://ubuntu.mirror.iweb.ca//pool/main/p/perl/perl_5.14.2-21_amd64.deb',
-        name => 'perl_5.14.2-21_amd64.deb',
+        file_name => 'perl_5.14.2-21_amd64.deb',
         package_name => 'perl',
         version => '5.14.2',
         revision => '21',
@@ -21,7 +21,7 @@ my $tests = [
     },
     {
         string => 'http://ftp.us.debian.org/debian/pool/main/libd/libdist-zilla-perl/libdist-zilla-perl_4.300020-1_all.deb',
-        name => 'libdist-zilla-perl_4.300020-1_all.deb',
+        file_name => 'libdist-zilla-perl_4.300020-1_all.deb',
         package_name => 'libdist-zilla-perl',
         version => '4.300020',
         revision => '1',
@@ -29,7 +29,7 @@ my $tests = [
     },
     {
         string => 'http://mirror.leaseweb.com/ubuntu//pool/main/libw/libwww-perl/libwww-perl_6.04-1_all.deb',
-        name => 'libwww-perl_6.04-1_all.deb',
+        file_name => 'libwww-perl_6.04-1_all.deb',
         package_name => 'libwww-perl',
         version => '6.04',
         revision => '1',
@@ -37,7 +37,7 @@ my $tests = [
     },
     {
         string => 'cache/apt/archives/libdata-printer-perl_0.35-1_amd64.deb',
-        name => 'libdata-printer-perl_0.35-1_amd64.deb',
+        file_name => 'libdata-printer-perl_0.35-1_amd64.deb',
         package_name => 'libdata-printer-perl',
         version => '0.35',
         revision => '1',
@@ -53,7 +53,7 @@ foreach my $test (@{$tests}) {
         string => $test->{string},
     );
 
-    is( $deb->get_name(), $test->{name}, 'get_name()',);
+    is( $deb->get_file_name(), $test->{file_name}, 'get_file_name()',);
     is( $deb->get_package_name(), $test->{package_name}, 'get_package_name()',);
     is( $deb->get_version(), $test->{version}, 'get_version()',);
     is( $deb->get_revision(), $test->{revision}, 'get_revision()',);
