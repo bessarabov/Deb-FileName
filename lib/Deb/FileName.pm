@@ -144,6 +144,19 @@ sub __check_version {
 
 }
 
+=head2 has_revision
+
+=cut
+
+sub has_revision {
+    my ($self) = @_;
+
+    my $result = $self->{__has_revision} ? $true : $false;
+
+    return $result;
+}
+
+
 =head2 get_revision
 
 =cut
@@ -151,7 +164,11 @@ sub __check_version {
 sub get_revision {
     my ($self) = @_;
 
-    return $self->{__revision};
+    if ($self->has_revision()) {
+        return $self->{__revision};
+    } else {
+        croak "There is no revision in deb file name. Stopped";
+    }
 }
 
 sub __check_revision {
@@ -191,27 +208,52 @@ sub __parse_string {
 
     croak("Expected to recieve string. Stopped") if not defined $string;
 
-    my $check_result = $string =~ /
-        (
-            ([^_\/]+)          # name
+    my $re_strict = qr/
+        (?<name>
+            (?<package_name>[^_\/]+)
             _
-            ([^_\/]+)          # version
+            (?<version>[^_\/]+)
             -
-            ([^_\/]+)          # revision
+            (?<revision>[^_\/]+)
             _
-            ([^_\/]+)          # architecture
+            (?<architecture>[^_\/]+)
             \.deb
         )
         $
     /x;
 
-    if ($check_result) {
+    # it is not under standard, but revisoin is very often missing in real
+    # life repository
+    my $re_without_revision= qr/
+        (?<name>
+            (?<package_name>[^_\/]+)
+            _
+            (?<version>[^_\/]+)
+            _
+            (?<architecture>[^_\/]+)
+            \.deb
+        )
+        $
+    /x;
 
-        $self->{__name} = $1;
-        $self->{__package_name} = $self->__check_package_name($2);
-        $self->{__version} = $self->__check_version($3);
-        $self->{__revision} = $self->__check_revision($4);
-        $self->{__architecture} = $self->__check_architecture($5);
+    if ($string =~ $re_strict) {
+
+        $self->{__name} = $+{name};
+        $self->{__package_name} = $self->__check_package_name($+{package_name});
+        $self->{__version} = $self->__check_version($+{version});
+        $self->{__revision} = $self->__check_revision($+{revision});
+        $self->{__architecture} = $self->__check_architecture($+{architecture});
+
+        $self->{__has_revision} = $true;
+
+    } elsif ($string =~ $re_without_revision) {
+
+        $self->{__name} = $+{name};
+        $self->{__package_name} = $self->__check_package_name($+{package_name});
+        $self->{__version} = $self->__check_version($+{version});
+        $self->{__architecture} = $self->__check_architecture($+{architecture});
+
+        $self->{__has_revision} = $false;
 
     } else {
         croak "String '$string' is not a valid deb filename. Stopped";
