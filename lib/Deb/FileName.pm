@@ -208,29 +208,34 @@ sub __parse_string {
 
     croak("Expected to recieve string. Stopped") if not defined $string;
 
+
+    # I know that there is such thing as named matching. I can write
+    # `(?<package_name>[^_\/]+)`, but this this will work only in Perl 5.10
+    # and above, but I want this module to work in older versions of Perl.
+
     my $re_strict = qr/
-        (?<name>
-            (?<package_name>[^_\/]+)
+        (
+            ([^_\/]+)       # package_name
             _
-            (?<version>[^_\/]+)
+            ([^_\/]+)       # version
             -
-            (?<revision>[^_\/]+)
+            ([^_\/]+)       # revision
             _
-            (?<architecture>[^_\/]+)
+            ([^_\/]+)       # architecture
             \.deb
         )
         $
     /x;
 
-    # it is not under standard, but revisoin is very often missing in real
+    # it is not under standard, but revision is very often missing in real
     # life repository
     my $re_without_revision= qr/
-        (?<name>
-            (?<package_name>[^_\/]+)
+        (
+            ([^_\/]+)
             _
-            (?<version>[^_\/]+)
+            ([^_\/]+)
             _
-            (?<architecture>[^_\/]+)
+            ([^_\/]+)
             \.deb
         )
         $
@@ -238,20 +243,20 @@ sub __parse_string {
 
     if ($string =~ $re_strict) {
 
-        $self->{__name} = $+{name};
-        $self->{__package_name} = $self->__check_package_name($+{package_name});
-        $self->{__version} = $self->__check_version($+{version});
-        $self->{__revision} = $self->__check_revision($+{revision});
-        $self->{__architecture} = $self->__check_architecture($+{architecture});
+        $self->{__name} = $1;
+        $self->{__package_name} = $self->__check_package_name($2);
+        $self->{__version} = $self->__check_version($3);
+        $self->{__revision} = $self->__check_revision($4);
+        $self->{__architecture} = $self->__check_architecture($5);
 
         $self->{__has_revision} = $true;
 
     } elsif ($string =~ $re_without_revision) {
 
-        $self->{__name} = $+{name};
-        $self->{__package_name} = $self->__check_package_name($+{package_name});
-        $self->{__version} = $self->__check_version($+{version});
-        $self->{__architecture} = $self->__check_architecture($+{architecture});
+        $self->{__name} = $1;
+        $self->{__package_name} = $self->__check_package_name($2);
+        $self->{__version} = $self->__check_version($3);
+        $self->{__architecture} = $self->__check_architecture($4);
 
         $self->{__has_revision} = $false;
 
